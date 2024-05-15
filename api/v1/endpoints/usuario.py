@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy.exc import IntegrityError
 
 from models.usuario_model import UsuarioModel
 from schemas.usuarios_schema import UsuarioSchemaBase, UsuarioSchemaCreate, UsuarioSchemaUp, UsuariosSchemaArtigos
@@ -27,10 +28,14 @@ async def post_usuario(usuario:UsuarioSchemaCreate, db: AsyncSession = Depends(g
     novo_usuario: UsuarioModel= UsuarioModel(nome=usuario.nome, sobrenome=usuario.sobrenome, email=usuario.email, senha=gerar_hash_senha(usuario.senha), eh_admin=usuario.eh_admin)
 
     async with db as session:
-        session.add(novo_usuario)
-        await session.commit()
+        try:
+            session.add(novo_usuario)
+            await session.commit()
 
-        return novo_usuario
+            return novo_usuario
+        except IntegrityError:
+            raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail='Já existe usuário cadastrado.')
+
     
 # GET Usuarios
 @router.get('/', response_model=List[UsuarioSchemaBase])

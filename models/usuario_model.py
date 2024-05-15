@@ -10,10 +10,9 @@ class UsuarioModel(settings.DBBaseModel):
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(256), nullable=True)
     sobrenome = Column(String(256), nullable=True)
-    email = Column(String(256), index=True, nullable=True, unique=True)
+    email = Column(String(256), index=True, nullable=False, unique=True)
     senha = Column(String(256), nullable=False)
     eh_admin = Column(Boolean, default=False)
-    
     artigos = relationship(
         "ArtigoModel",
         cascade="all,delete-orphan",
@@ -21,4 +20,3 @@ class UsuarioModel(settings.DBBaseModel):
         uselist=True,
         lazy="joined"
     )
-    criador = relationship("UsuarioModel", back_populates='artigos', lazy='joined')
