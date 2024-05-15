@@ -1,6 +1,6 @@
 from typing import Optional, AsyncGenerator
 
-from fastapi import Depends, HTTPExeption, status
+from fastapi import Depends, HTTPException, status
 from jose import jwt, JWTError
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -16,12 +16,12 @@ from models.usuario_model import UsuarioModel
 class TokenData(BaseModel):
     username: Optional[str] = None
 
-async def get_session() -> Generator:
+async def get_session() -> AsyncGenerator:
     session: AsyncSession = Session()
 
     try:
         yield session
-    finally
+    finally:
         await session.close()
 
 

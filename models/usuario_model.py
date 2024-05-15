@@ -13,6 +13,7 @@ class UsuarioModel(settings.DBBaseModel):
     email = Column(String(256), index=True, nullable=True, unique=True)
     senha = Column(String(256), nullable=False)
     eh_admin = Column(Boolean, default=False)
+    
     artigos = relationship(
         "ArtigoModel",
         cascade="all,delete-orphan",
