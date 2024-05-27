@@ -12,4 +12,3 @@ class ArtigoSchema(BaseModel):
 
     class Config:
         orm_mode = True
-        
