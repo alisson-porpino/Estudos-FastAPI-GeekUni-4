@@ -9,9 +9,12 @@ from schemas.artigo_schema import ArtigoSchema
 class UsuarioSchemaBase(BaseModel):
     id: Optional[int] = None
     nome: str
-    sobrenome: str
+    username: str
     email: EmailStr
     eh_admin: bool = False
+    #date_created: Optional[str] = None
+    #last_update: Optional[str] = None
+    #recovery_code: Optional[str] = None
 
     class Config:
         orm_mode = True
@@ -27,7 +30,7 @@ class UsuarioSchemaArtigos(UsuarioSchemaBase):
 
 class UsuarioSchemaUp(UsuarioSchemaBase):
     nome: Optional[str]
-    sobrenome: Optional[str]
+    username: Optional[str]
     email: Optional[EmailStr]
     senha: Optional[str]
     eh_admin: Optional[bool]
